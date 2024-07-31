@@ -1,25 +1,28 @@
 import Mustache from "mustachejs";
 import { createApp } from "vue";
 
-const url = `https://www.omdbapi.com/?s=harry potter&apikey=adf1f2d7`;
+console.log("Happy Thurday!");
 
 // ///////////
 // Vanilla JS
 // ///////////
 
-// // 1. Select elements results div
-// const results = document.querySelector('#results');
+// const url = `https://www.omdbapi.com/?s=harry potter&apikey=adf1f2d7`;
 
-// // 2. Fetch an array movies form OMDB API
+// // 1. Select elements (results)
+// const results = document.querySelector("#results");
+// // 2. No event listen to listen to (card appearing at page load)
+
+// // 2.5 Fetch the movie data from omdbAPI
 // fetch(url)
-//   .then((response) => response.json())
+//   .then(response => response.json())
 //   .then((data) => {
-//     // 3. Change the DOM insert the movies in results
 //     const movies = data.Search;
 //     movies.forEach((movie) => {
+//       // 3. Change the DOM, insert the cards into the results div
 //       const cardTemplate = `
 //       <div class='col-6'>
-//         <div class="card">
+//         <div class="card my-3">
 //           <img src="${movie.Poster}" class="card-img-top" alt="${movie.Title} poster">
 //           <div class="card-body">
 //             <h2 class="card-title">${movie.Title}</h2>
@@ -36,22 +39,27 @@ const url = `https://www.omdbapi.com/?s=harry potter&apikey=adf1f2d7`;
 // JS with templates
 // ///////////
 
-// const template = document.querySelector("#movie-card-template");
-// const results = document.querySelector('#results');
+// const url = `https://www.omdbapi.com/?s=harry potter&apikey=adf1f2d7`;
+
+// const results = document.querySelector("#results");
+// const template = document.querySelector("#movieCardTemplate");
+// // console.log(template);
+// // template.innerHTML returns a string of the template content
+// // template.content // returns an HTML element of the template content
 
 // fetch(url)
-//   .then((response) => response.json())
+//   .then(response => response.json())
 //   .then((data) => {
 //     const movies = data.Search;
 //     movies.forEach((movie) => {
-//       console.log(template.content) // this is a HTML element
-//       // console.log(template.innerHTML) // this is a string
-//       const clone = template.content.cloneNode(true); // creating a copy of the original template
-//       clone.querySelector(".card-title").innerText = movie.Title;
-//       clone.querySelector(".card-img-top").src = movie.Poster;
-//       clone.querySelector(".card-img-top").alt = `${movie.Title} poster`;
-//       clone.querySelector("a").href = `https://www.imdb.com/title/${movie.imdbID}`;
-//       results.appendChild(clone) // inserting the clone into results
+//       const templateCopy = template.content.cloneNode(true);
+//       templateCopy.querySelector(".card-title").innerText = movie.Title;
+//       templateCopy.querySelector(".card-text").innerText = movie.Year;
+//       templateCopy.querySelector(".card-img-top").src = movie.Poster;
+//       templateCopy.querySelector(".card-img-top").alt = movie.Title;
+//       templateCopy.querySelector("a").href += movie.imdbID;
+//       // console.log(templateCopy);
+//       results.appendChild(templateCopy);
 //     });
 //   });
 
@@ -59,52 +67,62 @@ const url = `https://www.omdbapi.com/?s=harry potter&apikey=adf1f2d7`;
 // MUSTACHEJS
 // ///////////
 
-// const testTemplate = "<h1>{{student}} is amazing!</h1>";
-// const testData = { student: "Rei" }
+// const result = Mustache.render("<h1>Today, I ate a {{food}} !!!</h1>", {food: "burger"})
+// //                               TEMPLATE                               DATA
+// console.log(result);
 
-// const testResult = Mustache.render(testTemplate, testData);
-// console.log(testResult);
-// => <h1>Rei is amazing!</h1>
+// const url = `https://www.omdbapi.com/?s=harry potter&apikey=adf1f2d7`;
 
-// const template = document.querySelector("#movie-card-template");
-// const results = document.querySelector('#results');
+// const results = document.querySelector("#results");
+// const template = document.querySelector("#movieCardTemplate");
 
 // fetch(url)
-//   .then((response) => response.json())
+//   .then(response => response.json())
 //   .then((data) => {
-//     const movies = data.Search;
-//     movies.forEach((movie) => {
-//       // {
-//       //   "Title": "Harry Potter and the Goblet of Fire",
-//       //   "Year": "2005",
-//       //   "imdbID": "tt0330373",
-//       //   "Type": "movie",
-//       //   "Poster": "https://m.media-amazon.com/images/M/MV5BMTI1NDMyMjExOF5BMl5BanBnXkFtZTcwOTc4MjQzMQ@@._V1_SX300.jpg"
-//       //  }
-//       const cardTemplate = template.innerHTML;
-//       const card = Mustache.render(cardTemplate, movie);
-//       results.insertAdjacentHTML("beforeend", card);
+//     const moviesData = data.Search;
+//     moviesData.forEach((movieData) => {
+//       const templateString = template.innerHTML;
+//       const output = Mustache.render(templateString, movieData);
+//       results.insertAdjacentHTML("beforeend", output);
 //     });
 //   });
+
 
 // ///////////
 // MUSTACHEJS + ITERATION
 // ///////////
 
-// const template = document.querySelector("#movie-card-template");
-// const results = document.querySelector('#results');
+// const url = `https://www.omdbapi.com/?s=harry potter&apikey=adf1f2d7`;
+
+// const results = document.querySelector("#results");
+// const template = document.querySelector("#movieCardTemplate");
 
 // fetch(url)
-//   .then((response) => response.json())
-//   .then((data) => {
-//     const movies = data.Search;
-//     const moviesData = {
-//       "movies": movies
-//     }
-//     const cardTemplate = template.innerHTML;
-//     const cards = Mustache.render(cardTemplate, moviesData);
-//     results.innerHTML = cards;
+//   .then(response => response.json())
+//   .then((data) => { 
+//     // {
+//     //   movies: [
+//     //     {
+//     //       Title: "blabla",
+//     //       Poster: "blabla",
+//     //       ...
+//     //     },
+//     //     {...
+//     //     },
+//     //     {...
+//     //     },
+//     //   ]
+//     // }
+//     const templateString = template.innerHTML;
+//     const moviesData = data.Search;
+//     // console.log(moviesData);
+//     // console.log({movies: moviesData });
+    
+//     const output = Mustache.render(templateString, {movies: moviesData })
+//     console.log(output);
+//     results.innerHTML = output;
 //   });
+
 
 // ///////////
 // VUEJS
@@ -113,7 +131,7 @@ const url = `https://www.omdbapi.com/?s=harry potter&apikey=adf1f2d7`;
 createApp({
   data() {
     return {
-      message: "Hello batch #1638"
+      message: "Hello from Vue.js"
     }
   }
-}).mount("#vue-root")
+}).mount("#vue-root");
